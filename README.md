@@ -6,3 +6,11 @@
 composer create-project drupal-composer/drupal-project:8.x-dev unit-testing-d8 --no-interaction
 composer require mockery/mockery
 ```
+
+## References
+
+```
+https://github.com/mockery/mockery
+https://www.drupal.org/project/wrappers_delight
+
+```
