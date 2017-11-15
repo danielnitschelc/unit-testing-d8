@@ -2,28 +2,32 @@
 
 use Drupal\Core\Session\AccountProxy;
 use Drupal\quadrupaler\Quadrupaler;
+use Drupal\quadrupaler\NodeWrapper;
 
 class QuadrupalerTest extends PHPUnit\Framework\TestCase {
 
   /** @var PHPUnit_Framework_MockObject_MockObject $accountProxy */
   private $accountProxy;
+  /** @var PHPUnit_Framework_MockObject_MockObject $accountProxy */
+  private $nodeWrapper;
 
   public function setUp() {
     $this->accountProxy = $this->getMock(AccountProxy::class);
+    $this->nodeWrapper = $this->getMock(NodeWrapper::class, ['load']);
   }
 
   public function testQuadrupal_GivenOneDrupal_ReturnFourDrupals() {
-    $quadrupaler = new Quadrupaler($this->accountProxy);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
     $this->assertEquals('Drupaldrupaldrupaldrupal', $quadrupaler->quadrupal('drupal'));
   }
 
   public function testQuadrupal_GivenDRUPAL_ReturnDRUPAL() {
-    $quadrupaler = new Quadrupaler($this->accountProxy);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
     $this->assertEquals('DRUPAL', $quadrupaler->quadrupal('DRUPAL'));
   }
 
   public function testQuadrupal_GivenDrupalWithText_ReturnFourDrupalsWithText() {
-    $quadrupaler = new Quadrupaler($this->accountProxy);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
     $this->assertEquals('Adrupaldrupaldrupaldrupala', $quadrupaler->quadrupal('adrupala'));
   }
 
@@ -31,8 +35,16 @@ class QuadrupalerTest extends PHPUnit\Framework\TestCase {
     $this->accountProxy
       ->method('isAnonymous')
       ->willReturn(FALSE);
-    $quadrupaler = new Quadrupaler($this->accountProxy);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
     $this->assertEquals('Drupaldrupaldrupaldrupal', $quadrupaler->quadrupal('drupal'));
+  }
+
+  public function testQuadrupal_GivenInvalidNodeId_ReturnNull() {
+    $this->nodeWrapper
+      ->method('load')
+      ->willReturn(NULL);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
+    $this->assertEquals(NULL, $quadrupaler->quadrupalNode(-1));
   }
 
 }
