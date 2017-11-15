@@ -27,6 +27,7 @@ install:
   - composer --verbose install
 
 script:
+  - cd $TRAVIS_BUILD_DIR/web
   - ./../vendor/bin/phpunit
   #- if [[ $RELEASE = dev ]]; then composer --verbose remove --no-update drupal/console; fi;
   #- if [[ $RELEASE = dev ]]; then composer --verbose require --no-update drupal/core:8.4.x-dev; fi;
