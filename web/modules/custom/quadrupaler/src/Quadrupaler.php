@@ -1,5 +1,7 @@
 <?php
 
+namespace Drupal\quadrupaler;
+
 class Quadrupaler {
 
   public function quadrupal(string $string): string {

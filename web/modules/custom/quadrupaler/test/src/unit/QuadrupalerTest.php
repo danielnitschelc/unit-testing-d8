@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Quadrupaler.php';
+use Drupal\quadrupaler\Quadrupaler;
 
 class QuadrupalerTest extends PHPUnit\Framework\TestCase {
 
