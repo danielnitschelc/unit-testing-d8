@@ -23,9 +23,10 @@ class Quadrupaler {
     return $replacement;
   }
 
-  public function quadrupalNode(int $nodeId): ?Node {
+  public function quadrupalNode(int $nodeId) {
     $node = $this->nodeWrapper->load($nodeId);
     if (!empty($node)) {
+      $node->get('title')->getValue();
       $node->title->value = $this->quadrupal($node->title->value);
     }
     return $node;

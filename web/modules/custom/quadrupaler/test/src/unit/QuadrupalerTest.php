@@ -47,4 +47,22 @@ class QuadrupalerTest extends PHPUnit\Framework\TestCase {
     $this->assertEquals(NULL, $quadrupaler->quadrupalNode(-1));
   }
 
+  public function testQuadrupal_GivenValidNodeWithDrupalIntitle_ReturnNodeWithFourDrupalsInTitle() {
+    $node = (object) [
+      'title' => (object) [
+        'value' => 'drupal'
+      ]
+    ];
+    $expected = (object) [
+      'title' => (object) [
+        'value' => 'Drupaldrupaldrupaldrupal'
+      ]
+    ];
+    $this->nodeWrapper
+      ->method('load')
+      ->willReturn($node);
+    $quadrupaler = new Quadrupaler($this->accountProxy, $this->nodeWrapper);
+    $this->assertEquals($expected, $quadrupaler->quadrupalNode(1));
+  }
+
 }
